@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mahi's universe</title>
+     <style>
+      * {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  min-height: 100dvh;
+  perspective: 1000px;
+  font: 1em/1.4 "Poppins", sans-serif;
+  overflow: hidden;
+  color: hsl(180 68% 5%);
+  background-image: radial-gradient(
+      circle farthest-corner at 50% 50%,
+      hsl(187 20% 88%) 30%,
+      hsl(149 20% 94%) 100%
+  );
+}
+
+.book {
+  position: relative;
+  display: flex;
+  margin: auto;
+  width: 42cqmin; /* Increased width */
+  pointer-events: none;
+  transform-style: preserve-3d;
+  transition: translate 1s;
+  translate: calc(min(var(--c), 1) * 50%) 0%;
+  rotate: 1 0 0 30deg;
+}
+
+.page {
+  --thickness: 4;
+  flex: none;
+  display: flex;
+  width: 100%;
+  font-size: 2.2cqmin; /* Slightly increased font size */
+  pointer-events: all;
+  user-select: none;
+  transform-style: preserve-3d;
+  transform-origin: left center;
+  transition: transform 1s,
+      rotate 1s ease-in calc((min(var(--i), var(--c)) - max(var(--i), var(--c))) * 50ms);
+  translate: calc(var(--i) * -100%) 0px 0px;
+  transform: translateZ(calc((var(--c) - var(--i) - 0.5) * calc(var(--thickness) * 0.23cqmin)));
+  rotate: 0 1 0 calc(clamp(0, var(--c) - var(--i), 1) * -180deg);
+}
+
+.front,
+.back {
+  position: relative;
+  flex: none;
+  width: 100%;
+  backface-visibility: hidden;
+  overflow: hidden;
+  background-color: #fff;
+  translate: 0px;
+}
+
+.back {
+  translate: -100% 0;
+  rotate: 0 1 0 180deg;
+}
+
+.book {
+  counter-reset: page -1;
+}
+
+.book a {
+  color: inherit;
+}
+
+.page {
+  box-shadow: 0em 0.5em 1em -0.2em #00000020;
+}
+
+.front,
+.back {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-between;
+  padding: 2em;
+  border: 1px solid #0002;
+}
+
+.front:has(img),
+.back:has(img) {
+  padding: 0;
+}
+
+.front img,
+.back img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.front::after,
+.back::after {
+  position: absolute;
+  bottom: 1em;
+  counter-increment: page;
+  content: counter(page) ".";
+  font-size: 0.8em;
+}
+
+.cover::after {
+  content: "";
+}
+
+.front::after {
+  right: 1em;
+}
+
+.front {
+  background: linear-gradient(to left, #f7f7f7 80%, #eee 100%);
+  border-radius: 0.1em 0.5em 0.5em 0.1em;
+}
+
+.back::after {
+  left: 1em;
+}
+
+.back {
+  background-image: linear-gradient(to right, #f7f7f7 80%, #eee 100%);
+  border-radius: 0.5em 0.1em 0.1em 0.5em;
+}
+
+.cover {
+  background: radial-gradient(
+          circle farthest-corner at 80% 20%,
+          hsl(150 80% 20% / 0.3) 0%,
+          hsl(170 60% 10% / 0.1) 100%
+      ),
+      hsl(231, 32%, 29%) url("./cover.jpg") 50% / cover;
+  color: hsl(0, 100%, 30%); /* Dark red text color for cover page */
+}
+
+h1,
+h2,
+h3 {
+  margin-bottom: 1px;
+  color: hsl(0, 100%, 30%); /* Dark red heading color */
+}
+
+p {
+  margin-top: 1px;
+  margin-bottom: 8px;
+  line-height: 1.4;
+  color: hsl(0, 100%, 30%); /* Dark red text color for paragraphs */
+}
+
+.front,
+.back {
+  padding: 1.5em;
+  color: hsl(0, 100%, 30%); /* Dark red text color for front and back pages */
+}
+
+.book {
+  width: 40cqmin; /* Slightly increased width */
+}
+
+.page {
+  font-size: 2cqmin; /* Slightly increased font size */
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+.front,
+.back {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 1.5em;
+}
+
+h2 {
+  margin-bottom: 5px;
+}
+
+p {
+  margin-top: 5px;
+  line-height: 1.4;
+}
+
+
+body {
+  margin: 0;
+  display: flex;
+  min-height: 100dvh;
+  perspective: 1000px;
+  font: 1em/1.4 "Poppins", sans-serif;
+  overflow: hidden;
+  color: hsl(180 68% 5%);
+  background: linear-gradient(to right, #ff7eb9, #ff65a3, #ff165d);
+  background-size: 400% 400%;
+  animation: gradientAnimation 10s ease infinite;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Emoji Animation */
+.emoji {
+  position: absolute;
+  font-size: 3rem;
+  opacity: 0;
+  animation: floatEmojis 6s ease-in-out infinite;
+}
+
+@keyframes floatEmojis {
+  0% {
+    transform: translateY(100px);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-100px) rotate(20deg);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(100px);
+    opacity: 1;
+  }
+}
+
+/* Add random timing for each emoji */
+.emoji:nth-child(1) {
+  animation-delay: 0s;
+  left: 10%;
+}
+.emoji:nth-child(2) {
+  animation-delay: 1s;
+  left: 20%;
+}
+.emoji:nth-child(3) {
+  animation-delay: 2s;
+  left: 30%;
+}
+.emoji:nth-child(4) {
+  animation-delay: 3s;
+  left: 40%;
+}
+.emoji:nth-child(5) {
+  animation-delay: 4s;
+  left: 50%;
+}
+.emoji:nth-child(6) {
+  animation-delay: 5s;
+  left: 60%;
+}
+.emoji:nth-child(7) {
+  animation-delay: 6s;
+  left: 70%;
+}
+.emoji:nth-child(8) {
+  animation-delay: 7s;
+  left: 80%;
+}
+.emoji:nth-child(9) {
+  animation-delay: 8s;
+  left: 90%;
+}
+
+
+     </style>
+  </head>
+  <body>
+    <div class="book">
+      <div class="page">
+        <div class="front cover">
+          <h1
+            style="
+              color: rgb(255, 255, 255);
+              text-shadow: 5px 2px 5px rgb(0, 0, 0);
+            "
+          >
+            My heart is all yours💗
+          </h1>
+
+          <p
+            style="
+              color: rgb(255, 255, 255);
+              text-shadow: 5px 2px 5px rgb(0, 0, 0);
+            "
+          >
+          </p>
+        </div>
+        <div class="back">
+          <h2>Feelings for You.</h2>
+
+       <p>I will feel you the things you never felt,</br>
+        I will try to heal you from the things even it's build in concrete or cement.</br>
+        I will love you forever and give you my all,</br>
+        I will stand with you even in stormy rainfall.</br>
+        <b>You are mine and i'm yours</b></br>
+        Our love is the greatest and pure.</br>
+        I won't gonna sit until i <b>marry</b>,</br>
+        How can i live without you <b>my fairy</b>?</br>
+        The things I'm experience now is all new,</br>
+        But I'll never stop saying that <b>I LOVE YOU.</b></p>
+        </div>
+      </div>
+      <!--2nd page-->
+      <div class="page">
+        <div class="front">
+          <h2>My heart wants your love.</h2>
+          <p>In the mist of cold,</br>
+            You the one i wanna hold.</br>
+            In the foggy weather,</br>
+            I want you in my sweater.</br>
+            Everybody told you you're not enough,</br>
+            But now you became <b>my other half</b>.</br>
+            You are so much special to me,</br>
+            I wanna be with till my last breath.</br>
+            You are so much precious to me,</br>
+            For your love I'm on my knee.</br>
+            Yes <b>I'm madly in love with you</b>,</br>
+            Would do anything just be with you.</br>
+            Sometimes i go out of words while explaining how beautiful your soul and you are,</br>
+            But i always admire you from a far.</br>
+            I wanna break the distance and <b>make you mine forever</b>,</br>
+            For that I'll do anything to make it work.</br>
+            Have trust in me, faith in me, believe in me,</br>
+            I'll prove you <b>Mahi is the one you always wanted to be with</b>.
+          </p>
+        </div>
+        <div class="back">
+          <img src="./1.jpg" alt="Img 1" />
+        </div>
+      </div>
+      <!--3rd page-->
+      <div class="page">
+        <div class="front">
+          <h2>My love for you.</h2>
+          <p>Even when the shadow take over you,</br>
+            I will give my all to shine for you.</br>
+            Even when you are in darkness and can't see anything,</br>
+            I will hold your hand show you that <b>you are my everything</b>.</br>
+            You keep saying you aren't enough you aren't lovable but girl i wish you could see
+            yourself through my eyes which just admires that you are so beautiful.</br>
+            Yes <b>I'm in love and will love you forever</b>,</br>
+            And if it's the last day of earth i will keep choose you over and over.
+          </p>
+        </div>
+        <div class="back">
+          <h2>For the Smile That Steals My Heart</h2>
+          <p>You don't know what you smile do to my heart,</br>
+            It feels like butterflies flying while making the art of love in my heart.</br>
+            
+            You don't know what lies underneath you pretty smile,</br>
+            For this my whole universe in it's knees to be yours my beautiful sunshine.</br>
+            
+            You don't know how powerful your smile is,</br>
+            So can you keep smile for the lifetime please?</br>
+            
+            You better know that i will do anything for your beautiful smile,</br>
+            I'll swim any ocean, climb any hills, I'll do anything and everything to make you the happiest soul.
+          </p>
+        </div>
+      </div>
+      <!--4th page-->
+      <div class="page">
+        <div class="front">
+          <h2>Through Rain and Time, I Love You</h2>
+          <p>Despite of this rainfall,</br>
+            I want you to be my all.</br>
+            Time is going so fast,</br>
+            But we are here waiting for it <b>to be our last</b>.</br>
+            In every moment of life's bliss,</br>
+            <b>I wanna be your last first kiss</b>.</br>
+            You <b>my Saturn</b>, you <b>my Moon</b>,</br>
+            Ohh Zohrah, your voice is my <b>favourite tune</b>.</br>
+            You are so perfect in every view,</br>
+            Today and always i will keep saying <b>"Zohrah, I LOVE YOU"</b>.
+          </p>
+        </div>
+        <div class="back">
+          <img src="./2.jpg" alt="Img 1" />
+        </div>
+      </div>
+      <!--5th page-->
+      <div class="page">
+        <div class="front">
+          <h1>Forever and Always, You</h1>
+          <p>I will <b>choose you forever</b>,</br>
+            In <b>this life and afterlife too</b>; you <b>worth in every universe</b> and my <b>love
+                is always true</b>.</br>
+
+            I will admire you forever,</br>
+            I <b>will kiss your bruces and scars</b>; i <b>fell</b> for them <b>first</b>.</br>
+
+            <b>I love you and always will</b>,</br>
+            I <b>wanna make you mine</b>; i will do everything and anything, yes <b>ofcourse i
+                will</b>.
+          </p>
+        </div>
+        <div class="back">
+          <h1>You, My Heaven on Earth</h1>
+          <p>You're the <b>calmness of my soul</b>,</br>
+            With you I'm whole.</br>
+
+            You're the medicine of my pain,</br>
+            With you i feel like I'm in heaven.</br>
+
+            You're that shinny star in my sky,</br>
+            With your sparkle you lightup my whole sky.</br>
+
+            You're the reason of my smile,</br>
+            With you i see butterflies mile after mile.</br>
+
+            You're the reason of my every skipped heartbeat,</br>
+            With you my love, my mind and soul enters to an eternal peace.</p>
+          </p>
+        </div>
+      </div>
+      <!--6th page-->
+      <div class="page">
+        <div class="front">
+          <h2>Admiring Your Eternal Beauty</h2>
+          <p>You don't even know how much beautiful you are,</br>
+            Only i know that's why i keep admire your beauty from a far.</br>
+
+            You so <b>cute</b>,</br>
+            Everytime i see you i just go mute (cause i go out of words).</br>
+
+            You so <b>gorgeous</b>,</br>
+            In this lifetime even after death i want to be with you my dear miss universe.</br>
+
+            You so <b>pretty</b>,</br>
+            I can't explain how much love i hold for you that also confuse the destiny.</br>
+
+            Yes there's noone like you here, there or anywhere,</br>
+            Cause you are the rarest pearl that's only exist in this universe, my beautiful butterfly.
+          </p>
+        </div>
+        <div class="back">
+          <h2>Only Yours, Always and Beyond</h2>
+          <p>I will make you lucky and give you <b>a permanent smile</b>,</br>
+            There's none i can see but you, mile after mile.</br>
+            
+            My kind love and gentle care will always be there,</br>
+            The peace and love you feel is only that i care.</br>
+            
+            Your darkness will never come and i will make sure of it,</br>
+            My love, I will always <b>shine for you</b> and <b>love you</b>, There's no limit.</br>
+            
+            Yes, Together and forever that's the plan,</br>
+            You and I will be the greatest lover in this land of insane.</br>
+            
+            My heart only belongs to you and my love too,</br>
+            I'm only yours and will be always until it's grey and blue.</br>
+          </p>
+        </div>
+      </div>
+      <!--7th page-->
+      <div class="page">
+        <div class="front">
+          <h2>For the Love of You</h2>
+          <p>You are the <b>noor of my eyes</b> and the <b>queen of my heart</b>,</br>
+            You have the <b>wings so beautiful</b> just like the lilac-breasted bird.</br>
+            
+            If you look into my eyes,</br>
+            You will see what you are to me.</br>
+            
+          <b>Take my hand, take my whole life too</b>,</br>
+            For you i would do anything just to be with you.</br>
+            
+            Yes, I would kill for you; i would die for you,</br>
+            I would <b>trade the world</b> just <b>for the love of you</b>.</br>
+          </p>
+        </div>
+        <div class="back">
+          <h2>Will You Be Mine?</h2>
+          <p>In the foggy morning of winter,</br>
+            Put me in your lifes center.</br>
+            Let me be your one and only,</br>
+            And see how i make that <b>pretty smile</b> of yours <b>permanently.</b></br>
+            Girl, in my every heartbeat,</br>
+            My heart says Zohrah the one i need.</br>
+            Put your head on my shoulder,</br>
+            Together we will grow older.</br>
+            <b>I LOVE YOU</b> that's not just 3 words,</br>
+            Girl for you i would trade the whole world.</br>
+            You my universe, you my all,</br>
+            For you i would climb any hills doesn't matter how tall.</br>
+            Everyday i can't help but fall for you,</br>
+            Our love is so rare that can be found in a few.</br>
+            <b>I LOVE YOU</b>, want you for the lifetime,</br>
+            <b>Zohrah, please can you be mine?</b></p>
+        </div>
+      </div>
+
+      <div class="page">
+        <div class="front">
+          <img src="./4.png" alt="Img 1" />
+        </div>
+        <div class="back cover">
+          <h3 style="color: white;">For my dream girl, Zohrah</h3>
+          <p>
+            <a href="./myloml9.html"><u><h4 style="color: white;">My heart is yours.</h4></u></a>
+            <br /><a
+              href="#"
+              target="_blank"
+              rel="nofollow"></a>
+
+            <br />
+          </p>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="emoji">❤️‍🔥</div>
+<div class="emoji">🫶🏻</div>
+<div class="emoji">❤️</div>
+<div class="emoji">😘</div>
+<div class="emoji">💗</div>
+<div class="emoji">💓</div>
+<div class="emoji">❣️</div>
+<div class="emoji">💘</div>
+<div class="emoji">💖</div>
+<div class="emoji">💙</div>
+<div class="emoji">💚</div>
+<div class="emoji">🥰</div>
+<div class="emoji">💗</div>
+
+<script>
+  const flipBook = (elBook) => {
+    elBook.style.setProperty("--c", 0); // Set current page
+    elBook.querySelectorAll(".page").forEach((page, idx) => {
+      page.style.setProperty("--i", idx);
+      page.addEventListener("click", (evt) => {
+        if (evt.target.closest("a")) return;
+        const curr = evt.target.closest(".back") ? idx : idx + 1;
+        elBook.style.setProperty("--c", curr);
+      });
+    });
+  };
+  
+  document.querySelectorAll(".book").forEach(flipBook);
+  
+</script>
+ 
+  </body>
+</html>
+

@@ -97,7 +97,7 @@
 <body>
     <form id="login-form">
         <label for="code">Who is Mahi's universe?</label>
-        <input type="text" id="code" name="code" placeholder="Name of his universe">
+        <input type="text" id="code" name="code" placeholder="Name of Mahi's universe">
         <button id="submit-btn">Go on</button>
     </form>
     <div id="result"></div>
@@ -114,10 +114,10 @@
             e.preventDefault();
             const userInput = codeInput.value.trim();
             if (userInput === secretCode) {
-                resultDiv.innerHTML = 'Baby';
+                resultDiv.innerHTML = 'Zohubaboo!';
                 window.location.href = nextPageUrl; // Redirect to new page
             } else {
-                resultDiv.innerHTML = 'No, you are not my universe. Her name starts with capital P';
+                resultDiv.innerHTML = 'No, you are not my universe. Her name starts with capital P.';
             }
         });
 
